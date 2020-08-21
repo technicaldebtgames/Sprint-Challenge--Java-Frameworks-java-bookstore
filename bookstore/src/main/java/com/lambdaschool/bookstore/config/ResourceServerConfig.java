@@ -43,6 +43,7 @@ public class ResourceServerConfig
         // authenticated = any authenticated, signed in, user
         // hasAnyRole = must be authenticated and be assigned this role!
         http.authorizeRequests()
+
                 .antMatchers("/",
                              "/h2-console/**",
                              "/swagger-resources/**",
@@ -52,13 +53,18 @@ public class ResourceServerConfig
                              "/webjars/**",
                              "/createnewuser")
                 .permitAll()
+
                 .antMatchers("/users/**",
                              "/useremails/**",
                              "/oauth/revoke-token",
                              "/logout")
                 .authenticated()
-                .antMatchers("/roles/**")
+
+                .antMatchers("/roles/**",
+                             "/books/**")
+
                 .hasAnyRole("ADMIN", "DATA")
+
                 .and()
                 .exceptionHandling()
                 .accessDeniedHandler(new OAuth2AccessDeniedHandler());

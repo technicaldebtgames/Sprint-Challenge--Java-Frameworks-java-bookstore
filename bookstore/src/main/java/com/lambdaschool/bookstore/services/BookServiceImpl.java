@@ -1,3 +1,4 @@
+
 package com.lambdaschool.bookstore.services;
 
 import com.lambdaschool.bookstore.models.Author;
@@ -16,7 +17,7 @@ import java.util.List;
 @Transactional
 @Service("bookService")
 public class BookServiceImpl
-        implements BookService
+    implements BookService
 {
     @Autowired
     UserAuditing userAuditing;
@@ -35,8 +36,8 @@ public class BookServiceImpl
     {
         List<Book> list = new ArrayList<>();
         bookrepos.findAll()
-                .iterator()
-                .forEachRemaining(list::add);
+            .iterator()
+            .forEachRemaining(list::add);
         return list;
     }
 
@@ -44,7 +45,7 @@ public class BookServiceImpl
     public Book findBookById(long id)
     {
         return bookrepos.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Book with id " + id + " Not Found!"));
+            .orElseThrow(() -> new EntityNotFoundException("Book with id " + id + " Not Found!"));
     }
 
     @Transactional
@@ -52,7 +53,7 @@ public class BookServiceImpl
     public void delete(long id)
     {
         if (bookrepos.findById(id)
-                .isPresent())
+            .isPresent())
         {
             bookrepos.deleteById(id);
         } else
@@ -70,7 +71,7 @@ public class BookServiceImpl
         if (book.getBookid() != 0)
         {
             bookrepos.findById(book.getBookid())
-                    .orElseThrow(() -> new EntityNotFoundException("Book id " + book.getBookid() + " not found!"));
+                .orElseThrow(() -> new EntityNotFoundException("Book id " + book.getBookid() + " not found!"));
         }
 
         newBook.setTitle(book.getTitle());
@@ -79,19 +80,19 @@ public class BookServiceImpl
         if (book.getSection() != null)
         {
             newBook.setSection(sectionService.findSectionById(book.getSection()
-                                                                      .getSectionid()));
+                .getSectionid()));
         }
 
         newBook.getWrotes()
-                .clear();
+            .clear();
         for (Wrote w : book.getWrotes())
         {
             Author addAuthor = authorrepos.findById(w.getAuthor()
-                                                            .getAuthorid())
-                    .orElseThrow(() -> new EntityNotFoundException("Author Id " + w.getAuthor()
-                            .getAuthorid() + " Not Found!"));
+                .getAuthorid())
+                .orElseThrow(() -> new EntityNotFoundException("Author Id " + w.getAuthor()
+                    .getAuthorid() + " Not Found!"));
             newBook.getWrotes()
-                    .add(new Wrote(addAuthor, newBook));
+                .add(new Wrote(addAuthor, newBook));
         }
         return bookrepos.save(newBook);
     }
@@ -121,22 +122,22 @@ public class BookServiceImpl
         if (book.getSection() != null)
         {
             currentBook.setSection(sectionService.findSectionById(book.getSection()
-                                                                          .getSectionid()));
+                .getSectionid()));
         }
 
         if (book.getWrotes()
-                .size() > 0)
+            .size() > 0)
         {
             currentBook.getWrotes()
-                    .clear();
+                .clear();
             for (Wrote w : book.getWrotes())
             {
                 Author addAuthor = authorrepos.findById(w.getAuthor()
-                                                                .getAuthorid())
-                        .orElseThrow(() -> new EntityNotFoundException("Author Id " + w.getAuthor()
-                                .getAuthorid() + " Not Found!"));
+                    .getAuthorid())
+                    .orElseThrow(() -> new EntityNotFoundException("Author Id " + w.getAuthor()
+                        .getAuthorid() + " Not Found!"));
                 currentBook.getWrotes()
-                        .add(new Wrote(addAuthor, currentBook));
+                    .add(new Wrote(addAuthor, currentBook));
             }
         }
 
