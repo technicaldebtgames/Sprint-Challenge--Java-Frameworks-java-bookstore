@@ -14,7 +14,7 @@ import java.util.List;
 @Transactional
 @Service("authorService")
 public class AuthorServiceImpl
-        implements AuthorService
+    implements AuthorService
 {
     @Autowired
     AuthorRepository authorrespos;
@@ -24,8 +24,8 @@ public class AuthorServiceImpl
     {
         List<Author> list = new ArrayList<>();
         authorrespos.findAll()
-                .iterator()
-                .forEachRemaining(list::add);
+            .iterator()
+            .forEachRemaining(list::add);
         return list;
     }
 
@@ -33,7 +33,7 @@ public class AuthorServiceImpl
     public Author findAuthorById(long id)
     {
         return authorrespos.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Author with id " + id + " Not Found!"));
+            .orElseThrow(() -> new ResourceNotFoundException("Author with id " + id + " Not Found!"));
     }
 
     @Transactional
@@ -41,7 +41,7 @@ public class AuthorServiceImpl
     public void delete(long id)
     {
         if (authorrespos.findById(id)
-                .isPresent())
+            .isPresent())
         {
             authorrespos.deleteById(id);
         } else
@@ -55,7 +55,7 @@ public class AuthorServiceImpl
     public Author save(Author author)
     {
         if (author.getWrotes()
-                .size() > 0)
+            .size() > 0)
         {
             throw new ResourceFoundException("Wrotes are not added through Author.");
         }
@@ -74,7 +74,7 @@ public class AuthorServiceImpl
     {
         Author currentAuthor = findAuthorById(id);
         if (author.getWrotes()
-                .size() > 0)
+            .size() > 0)
         {
             throw new ResourceFoundException("Wrotes are not updated through Author.");
         }
